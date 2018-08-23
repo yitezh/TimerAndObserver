@@ -103,7 +103,7 @@
     for (KVOInfo *eachInfo in tmpArray) {
         if(eachInfo.observer==nil) {
            [infoArray removeObject:eachInfo];
-            break;
+            continue;
         }
         if(eachInfo.observeredObject == object) {
           [eachInfo.observer observeValueForKeyPath:keyPath ofObject:object change:change context:context];
