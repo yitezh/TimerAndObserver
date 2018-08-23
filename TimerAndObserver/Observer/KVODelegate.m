@@ -50,6 +50,7 @@
         }
         if(infoArray.count == 0)   {  //所有对象都删除了  才移除键
             [self.kvoMaps removeObjectForKey:keyPath];
+            NSLog(@"移除keyPath：%@的监听",keyPath);
         }
     }
 }
@@ -64,7 +65,7 @@
 }
 
 - (BOOL)isRemoveActionWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath context:(void *)context {
- 
+    BOOL isKeyRemoved = NO;
     NSMutableArray *infoArray = [self.kvoMaps objectForKey:keyPath];
     if(infoArray) {
         NSMutableArray *tmpArray = infoArray.mutableCopy;
@@ -74,12 +75,14 @@
             }
         }
         if(infoArray.count == 0)   {  //所有对象都删除了  才移除键
-             [self.kvoMaps removeObjectForKey:keyPath];
+            [self.kvoMaps removeObjectForKey:keyPath];
+            isKeyRemoved = YES;
+            NSLog(@"移除keyPath：%@的监听",keyPath);
         }
-        return YES;
+        return isKeyRemoved;
     }
     else {
-        return NO;
+        return isKeyRemoved;
     }
 
 }
@@ -99,7 +102,8 @@
     NSMutableArray *tmpArray = infoArray.mutableCopy;
     for (KVOInfo *eachInfo in tmpArray) {
         if(eachInfo.observer==nil) {
-        [infoArray removeObject:eachInfo];
+           [infoArray removeObject:eachInfo];
+            break;
         }
         if(eachInfo.observeredObject == object) {
           [eachInfo.observer observeValueForKeyPath:keyPath ofObject:object change:change context:context];

@@ -40,6 +40,7 @@
 }
 
 - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context  {
+//    [[SharedObject sharedInstance] addObserver:self forKeyPath:@"changeStr" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 
     NSLog(@"%@",NSStringFromSelector(_cmd));
 }
@@ -51,7 +52,7 @@
 }
 
 - (void)dealloc {
-
+   
     NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
