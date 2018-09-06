@@ -28,7 +28,7 @@ const NSString *timerkey = @"timerkey";
 
 + (NSTimer *)YT_timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo {
     if(yesOrNo) {
-        return  [self tansToTimerDelegateInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo WithSwizzleSel:@selector(YT_timerWithTimeInterval:target:selector:userInfo:repeats:)] ;
+        return  [self transToTimerDelegateInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo WithSwizzleSel:@selector(YT_timerWithTimeInterval:target:selector:userInfo:repeats:)] ;
     }
     else {
         return  [self YT_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
@@ -38,14 +38,14 @@ const NSString *timerkey = @"timerkey";
 
 + (NSTimer *)YT_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo{
     if(yesOrNo) {
-        return  [self tansToTimerDelegateInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo WithSwizzleSel:@selector(YT_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:)];
+    return  [self transToTimerDelegateInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo WithSwizzleSel:@selector(YT_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:)];
     }
     else {
     return  [self YT_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
     }
 }
 
-+ (NSTimer *)tansToTimerDelegateInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo WithSwizzleSel:(SEL)swizzleSel {
++ (NSTimer *)transToTimerDelegateInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo WithSwizzleSel:(SEL)swizzleSel {
     
     TimerDelegate *timerDelegate = [[TimerDelegate alloc]init];;
     [timerDelegate handleTarget:aTarget selector:aSelector userInfo:userInfo];

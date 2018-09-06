@@ -10,7 +10,7 @@
 typedef void (^ReleaseBlock) (id obj);
 @interface DeallocObject : NSObject
 
-@property (weak,nonatomic) id TObject;
+@property (weak,nonatomic) id bindObject;
 @property (copy,nonatomic) ReleaseBlock reBlock;
 
 @end

@@ -14,7 +14,9 @@
 -(void)dealloc {
     NSLog(@"DeallocObject");
     if(_reBlock) {
-        _reBlock(_TObject);
+        _reBlock(_bindObject);
     }
 }
+
+
 @end

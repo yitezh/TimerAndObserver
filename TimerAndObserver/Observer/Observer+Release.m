@@ -20,8 +20,8 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSArray *selNameArray = @[NSStringFromSelector(@selector(addObserver:forKeyPath:options:context:)),
-            NSStringFromSelector(@selector(removeObserver:forKeyPath:context:)),
-            ];
+                                  NSStringFromSelector(@selector(removeObserver:forKeyPath:context:)),
+                                  ];
         for (NSString *name in selNameArray) {
             SEL oriSel = NSSelectorFromString(name);
             NSString *newSelString = [NSString stringWithFormat:@"YT_%@",NSStringFromSelector(oriSel)];
@@ -36,17 +36,19 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 
 - (void)YT_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
     KVODelegate *kvoDelegate = self.kvoDelegate;
-
-    if(![kvoDelegate isAddActionWithObject:self Observer:observer forKeyPath:keyPath option:options context:context]) {
-    [self YT_addObserver:self.kvoDelegate forKeyPath:keyPath options:options context:context];
-    [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
+    
+    if([kvoDelegate isAddedScuccessWithObject:self Observer:observer forKeyPath:keyPath option:options context:context])
+    {
+        [self YT_addObserver:self.kvoDelegate forKeyPath:keyPath options:options context:context];
+        [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
     }
 }
 
 - (void)bindDeallocObjectForObserver:(id)observer keyPath:(NSString *)keyPath context:(void *)context{
     DeallocObject *deaObj = [[DeallocObject alloc] init];
     __weak typeof(self) weakSelf = self;
-    deaObj.TObject= observer;
+    deaObj.bindObject= observer;
+    
     [observer setDeallocObject:deaObj];
     
     deaObj.reBlock = ^(id obj) {
@@ -57,7 +59,7 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 
 - (void)YT_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath context:(nullable void *)context{
     KVODelegate *kvoDelegate = self.kvoDelegate;
-    if([kvoDelegate isRemoveActionWithObject:self Observer:observer forKeyPath:keyPath context:context]) {
+    if([kvoDelegate shouldRemoveTargetWithObject:self Observer:observer forKeyPath:keyPath context:context]) {
         [self YT_removeObserver:self.kvoDelegate forKeyPath:keyPath context:context];
     }
 }

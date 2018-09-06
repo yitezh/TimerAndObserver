@@ -16,7 +16,7 @@
 @implementation KVODelegate
 
 
-- (BOOL)isAddActionWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context {
+- (BOOL)isAddedScuccessWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context {
     KVOInfo *info = [self getNewInfoWithObject:object observer:observer keyPath:keyPath context:context];
     NSMutableArray *infoArray = [self.kvoMaps objectForKey:keyPath];
     if(infoArray) {
@@ -27,14 +27,14 @@
             [self.kvoMaps setObject:infoArray forKey:keyPath];
             NSLog(@"添加更新");
         }
-        return YES;
+        return NO;
     }
     else {
         NSMutableArray *infoArray = [NSMutableArray new];
         [infoArray addObject:info];
         [self.kvoMaps setObject:infoArray forKey:keyPath];
         
-        return NO;
+        return YES;
     }
 }
 
@@ -64,7 +64,7 @@
     return NO;
 }
 
-- (BOOL)isRemoveActionWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath context:(void *)context {
+- (BOOL)shouldRemoveTargetWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath context:(void *)context {
     BOOL isKeyRemoved = NO;
     NSMutableArray *infoArray = [self.kvoMaps objectForKey:keyPath];
     if(infoArray) {
