@@ -11,7 +11,7 @@
 @interface KVODelegate : NSObject
 
 
-- (BOOL)isAddedScuccessWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context;
+- (BOOL)shouldAddTargetWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context;
 
 - (BOOL)shouldRemoveTargetWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath context:(void *)context;
 

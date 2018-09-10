@@ -37,7 +37,7 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 - (void)YT_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
     KVODelegate *kvoDelegate = self.kvoDelegate;
     
-    if([kvoDelegate isAddedScuccessWithObject:self Observer:observer forKeyPath:keyPath option:options context:context])
+    if([kvoDelegate shouldAddTargetWithObject:self Observer:observer forKeyPath:keyPath option:options context:context])
     {
         [self YT_addObserver:self.kvoDelegate forKeyPath:keyPath options:options context:context];
         [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
@@ -47,8 +47,8 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 - (void)bindDeallocObjectForObserver:(id)observer keyPath:(NSString *)keyPath context:(void *)context{
     DeallocObject *deaObj = [[DeallocObject alloc] init];
     __weak typeof(self) weakSelf = self;
-    deaObj.bindObject= observer;
     
+    deaObj.bindObject= observer;
     [observer setDeallocObject:deaObj];
     
     deaObj.reBlock = ^(id obj) {

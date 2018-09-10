@@ -16,7 +16,7 @@
 @implementation KVODelegate
 
 
-- (BOOL)isAddedScuccessWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context {
+- (BOOL)shouldAddTargetWithObject:(id)object Observer:(id)observer forKeyPath:(NSString *)keyPath option:(NSKeyValueObservingOptions)options context:(void *)context {
     KVOInfo *info = [self getNewInfoWithObject:object observer:observer keyPath:keyPath context:context];
     NSMutableArray *infoArray = [self.kvoMaps objectForKey:keyPath];
     if(infoArray) {
