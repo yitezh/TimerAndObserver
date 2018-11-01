@@ -36,15 +36,18 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 
 - (void)YT_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
     KVODelegate *kvoDelegate = self.kvoDelegate;
+    //绑定一个对象检测对象释放
+    [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
     
     if([kvoDelegate shouldAddTargetWithObject:self Observer:observer forKeyPath:keyPath option:options context:context])
     {
         [self YT_addObserver:self.kvoDelegate forKeyPath:keyPath options:options context:context];
-        [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
     }
 }
 
 - (void)bindDeallocObjectForObserver:(id)observer keyPath:(NSString *)keyPath context:(void *)context{
+    if([observer deallocObject]) return;
+    
     DeallocObject *deaObj = [[DeallocObject alloc] init];
     __weak typeof(self) weakSelf = self;
     
