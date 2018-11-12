@@ -10,8 +10,8 @@
 
 @interface KVOInfo : NSObject
 
-@property (weak,nonatomic)NSObject *observer;
-@property (weak,nonatomic)NSObject *observeredObject;
+@property (weak,nonatomic)NSObject *observer;      //弱引用
+@property (weak,nonatomic)NSObject *observeredObject;    //弱引用
 @property (strong,nonatomic)NSString *keyPath;
 @property (assign,nonatomic)void *objectContext;
 

@@ -27,7 +27,7 @@ const NSString *timerkey = @"timerkey";
 }
 
 + (NSTimer *)YT_timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo {
-    if(yesOrNo) {
+    if(yesOrNo) {   //不重复的定时器不需要特殊处理
         return  [self transToTimerDelegateInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo WithSwizzleSel:@selector(YT_timerWithTimeInterval:target:selector:userInfo:repeats:)] ;
     }
     else {
@@ -48,10 +48,13 @@ const NSString *timerkey = @"timerkey";
 + (NSTimer *)transToTimerDelegateInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo WithSwizzleSel:(SEL)swizzleSel {
     
     TimerDelegate *timerDelegate = [[TimerDelegate alloc]init];;
+    
+    //将原目标对象和参数传递给delegate
     [timerDelegate handleTarget:aTarget selector:aSelector userInfo:userInfo];
+    
     SEL sel = NSSelectorFromString(@"sub_timerClick:");
     
-    //调用交换后的方法，因为正好方法参数相同，就写成一个方法了……………… -。-
+    //调用交换后的方法,此处将定时器对象设置delegate,
     IMP imp = [self methodForSelector:swizzleSel];
     NSTimer * (*func)(id, SEL, NSTimeInterval ,id,SEL,id,BOOL)= (void *)imp;
     return  func(self,swizzleSel,ti,timerDelegate,sel,userInfo,yesOrNo);

@@ -11,14 +11,14 @@
 @implementation TimerDelegate
 
 - (void)sub_timerClick:(NSTimer *)timer {
-    if(!_desTarget) {
+    if(!_desTarget) {   //判断原对象是否已经释放
         [timer invalidate];
         timer = nil;
         return ;
     }
     
     if([_desTarget respondsToSelector:self.selector]) {
-       //因为selector无法确定，用performSelector有警告
+       //调用原对象的方法,因为selector无法确定，用performSelector有警告
         IMP imp = [_desTarget methodForSelector:_selector];
          void (*func)(id, SEL, NSTimer *) = (void *)imp;
          func(_desTarget, _selector, timer);

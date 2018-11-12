@@ -13,7 +13,7 @@
 - (void)handleTarget:(id)aTarget  selector:(SEL)aSel  userInfo:(id)userInfo;
 
 
-@property (weak,nonatomic)id desTarget;
+@property (weak,nonatomic)id desTarget;   //弱引用
 @property (assign,nonatomic)SEL selector;
 @property (strong,nonatomic)id userInfo;
 

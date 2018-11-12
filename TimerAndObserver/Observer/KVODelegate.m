@@ -106,6 +106,7 @@
             continue;
         }
         if(eachInfo.observeredObject == object) {
+         // 触发原对象方法.
           [eachInfo.observer observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
     }

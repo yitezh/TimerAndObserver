@@ -36,11 +36,12 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 
 - (void)YT_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
     KVODelegate *kvoDelegate = self.kvoDelegate;
-    //绑定一个对象检测对象释放
+    //给观察者绑定一个对象检测对象释放
     [self bindDeallocObjectForObserver:observer keyPath:keyPath context:context];
     
     if([kvoDelegate shouldAddTargetWithObject:self Observer:observer forKeyPath:keyPath option:options context:context])
     {
+        //把观察者设为kvodelegate，由kvolDelegate统一管理,统一触发
         [self YT_addObserver:self.kvoDelegate forKeyPath:keyPath options:options context:context];
     }
 }
@@ -63,6 +64,7 @@ const NSString *deallocObjectKey = @"deallocObjectKey";
 - (void)YT_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath context:(nullable void *)context{
     KVODelegate *kvoDelegate = self.kvoDelegate;
     if([kvoDelegate shouldRemoveTargetWithObject:self Observer:observer forKeyPath:keyPath context:context]) {
+        //当所有对象全部移除，才移除相应的kvoDelegate.
         [self YT_removeObserver:self.kvoDelegate forKeyPath:keyPath context:context];
     }
 }
